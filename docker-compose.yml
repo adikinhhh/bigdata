@@ -7,9 +7,14 @@ services:
     image: mongo
     restart: always
     environment:
+      MONGO_INITDB_DATABASE: socialparking
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-
+    volumes:
+      - mongo-volume:/data/db
+    networks:
+      - internal
+    
   mongo-express:
     image: mongo-express
     restart: always
@@ -18,3 +23,11 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    networks:
+      - internal
+    
+volumes:
+  mongo-volume:
+  
+networks:
+  internal:
