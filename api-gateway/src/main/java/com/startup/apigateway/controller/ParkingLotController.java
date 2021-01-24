@@ -54,6 +54,7 @@ public class ParkingLotController {
 
     @PatchMapping(path = "/api/parkinglots/{id}")
     public ResponseEntity<?> updateParkingLots(@PathVariable String id, @RequestBody String body, ProxyExchange<byte[]> proxyExchange) {
+        // get all users which are 1km from that location, send a notification to them
         return proxyExchange.uri(parkinglotserverhost + "/api/parkinglots/" + id).body(body).patch();
     }
 

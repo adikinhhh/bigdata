@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,4 +33,5 @@ public class User implements Serializable {
     @NotBlank
     private String lastName;
 
+    private UserLocation userLocation;
 }
