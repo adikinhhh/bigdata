@@ -25,6 +25,16 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
     networks:
       - internal
+
+  parking_lots:
+    build: ./parking_lots
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 5000:5000
+      networks:
+      - internal
     
 volumes:
   mongo-volume:
