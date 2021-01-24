@@ -22,7 +22,7 @@ app.use((err, req, res, next) => {
     res.json({error: "Could not process request."});
 })
 
-mongoose.console(`mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/socialparking`, {
+mongoose.connect(`mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/socialparking?authSource=admin`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: true,
