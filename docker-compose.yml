@@ -10,6 +10,8 @@ services:
       MONGO_INITDB_DATABASE: socialparking
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27018:27017
     volumes:
       - mongo-volume:/data/db
     networks:
@@ -32,6 +34,8 @@ services:
       - 8080:8080
     networks:
       - internal
+    depends_on:
+      - mongo
 
   parking_lots:
     build: ./parking_lots
@@ -42,6 +46,19 @@ services:
       - 5000:5000
     networks:
       - internal
+    depends_on:
+      - mongo
+      
+  apigateway:
+    build: ./api-gateway
+    ports:
+      - 8086:8086
+    networks:
+      - internal
+    depends_on:
+      - mongo
+      - illegalparking
+      - parking_lots
     
 volumes:
   mongo-volume:

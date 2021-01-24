@@ -1,5 +1,6 @@
 package com.marecompanie.socialparking.controllers;
 
+import com.marecompanie.socialparking.api.IllegalParkingEventApi;
 import com.marecompanie.socialparking.model.IllegalParkingEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-public class IllegalParkingEventController {
+public class IllegalParkingEventController implements IllegalParkingEventApi {
 
     private final IllegalParkingEventService illegalParkingEventService;
 
@@ -18,33 +19,28 @@ public class IllegalParkingEventController {
         this.illegalParkingEventService = illegalParkingEventService;
     }
 
-    @PostMapping(path = "/api/illegalparkingevent")
-    public ResponseEntity<?> postIllegalParkingEvent(@RequestBody IllegalParkingEvent illegalParkingEvent) {
+    public ResponseEntity<?> postIllegalParkingEvent(IllegalParkingEvent illegalParkingEvent) {
         return illegalParkingEventService.postIllegalParkingEvent(illegalParkingEvent);
     }
 
-    @GetMapping(path = "/api/illegalparkingevent")
-    public ResponseEntity<List<IllegalParkingEvent>> getAllIllegalParkingEvents(@RequestParam(required = false) Double latitude,
-                                                                                @RequestParam(required = false) Double longitude,
-                                                                                @RequestParam(required = false) Double radius) {
+    public ResponseEntity<List<IllegalParkingEvent>> getAllIllegalParkingEvents(Double latitude,
+                                                                                Double longitude,
+                                                                                Double radius) {
         if (Objects.isNull(latitude) || Objects.isNull(longitude) || Objects.isNull(radius)) {
             return illegalParkingEventService.getAllIllegalParkingEvents();
         }
         return illegalParkingEventService.getAllIllegalParkingEventsByLocation(latitude, longitude, radius);
     }
 
-    @GetMapping(path = "/api/illegalparkingevent/{id}")
-    public ResponseEntity<?> getIllegalParkingEventById(@PathVariable String id) throws EntityNotFoundException {
+    public ResponseEntity<?> getIllegalParkingEventById(String id) throws EntityNotFoundException {
         return illegalParkingEventService.getIllegalParkingEventById(id);
     }
 
-    @DeleteMapping(path = "/api/illegalparkingevent/{id}")
-    public ResponseEntity<?> deleteIllegalParkingEvent(@PathVariable String id) throws EntityNotFoundException {
+    public ResponseEntity<?> deleteIllegalParkingEvent(String id) throws EntityNotFoundException {
         return illegalParkingEventService.deleteIllegalParkingEvent(id);
     }
 
-    @PutMapping(path = "/api/illegalparkingevent/{id}")
-    public ResponseEntity<?> updateIllegalParkingReputationScoreById(@PathVariable String id, @RequestParam String type) throws EntityNotFoundException {
+    public ResponseEntity<?> updateIllegalParkingReputationScoreById(String id, String type) throws EntityNotFoundException {
         return illegalParkingEventService.updateIllegalParkingReputationScoreById(id, type);
     }
 }
