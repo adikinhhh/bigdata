@@ -41,6 +41,7 @@ public class PushNotificationController {
         pushNotificationService.sendPushNotificationCustomDataWithTopic(request);
         return new ResponseEntity<>(new PushNotificationResponse(HttpStatus.OK.value(), "Notification has been sent."), HttpStatus.OK);
     }
+
     @PostMapping("/notification/data/customdatawithtopicjson")
     public ResponseEntity sendDataNotificationCustomWithSpecificJson(@RequestBody PushNotificationRequest request) {
         pushNotificationService.sendPushNotificationCustomDataWithTopicWithSpecificJson(request);

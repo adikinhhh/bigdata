@@ -1,5 +1,6 @@
 package com.startup.apigateway.service;
 
+import com.startup.apigateway.dao.DeviceToken;
 import com.startup.apigateway.dao.User;
 import com.startup.apigateway.dao.UserLocation;
 import com.startup.apigateway.dto.CredentialsRequest;
@@ -62,6 +63,8 @@ public class UserService {
                 .password(hashedPassword)
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
+                .deviceToken(null)
+                .userLocation(null)
                 .build();
         User userSaved = userRepository.save(newUser);
 
@@ -92,4 +95,15 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    public ResponseEntity<?> updateDeviceToken(String jwt, DeviceToken deviceToken) {
+        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(jwt.substring(7)).getBody();
+        String userId = getUserId(claims.getSubject());
+        Optional<User> crtUser = userRepository.findById(userId);
+        if(crtUser.isPresent()) {
+            crtUser.get().setDeviceToken(deviceToken.getDeviceToken());
+            User savedUser = userRepository.save(crtUser.get());
+            return ResponseEntity.ok("Device token added.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }

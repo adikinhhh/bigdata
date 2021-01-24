@@ -34,4 +34,6 @@ public class User implements Serializable {
     private String lastName;
 
     private UserLocation userLocation;
+
+    private String deviceToken;
 }
