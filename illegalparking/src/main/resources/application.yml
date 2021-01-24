@@ -1,0 +1,5 @@
+# App Properties
+bezkoder.app.jwtSecret: bezKoderSecretKey
+bezkoder.app.jwtExpirationMs: 86400000
+
+spring.data.mongodb.uri: "mongodb://root:example@mongo:27017/socialparking?authSource=admin"
