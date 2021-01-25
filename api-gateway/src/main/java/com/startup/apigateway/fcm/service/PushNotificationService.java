@@ -1,13 +1,19 @@
 package com.startup.apigateway.fcm.service;
 
+import com.startup.apigateway.dao.DeviceToken;
+import com.startup.apigateway.dao.Location;
+import com.startup.apigateway.dao.ParkingLot;
+import com.startup.apigateway.dao.User;
 import com.startup.apigateway.fcm.model.PushNotificationRequest;
+import com.startup.apigateway.repository.ParkingLotRepository;
+import com.startup.apigateway.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.jooq.lambda.Unchecked;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -16,10 +22,33 @@ public class PushNotificationService {
 
     private FCMService fcmService;
 
-    public PushNotificationService(FCMService fcmService) {
+    private ParkingLotRepository parkingLotRepository;
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public PushNotificationService(FCMService fcmService, ParkingLotRepository parkingLotRepository, UserRepository userRepository) {
         this.fcmService = fcmService;
+        this.parkingLotRepository = parkingLotRepository;
+        this.userRepository = userRepository;
     }
 
+    public void sendPushNotificationForFreeParkingLot(String id, String body) {
+        Optional<ParkingLot> crtParkingLot = parkingLotRepository.findById(id);
+        if (crtParkingLot.isPresent() && body.contains("Yes")) {
+            Location parkingLotLocation = crtParkingLot.get().getLocation();
+            //aici trebuia query cu distanta in mongo
+            List<User> allUsers = userRepository.findAll();
+            allUsers.stream()
+                    .filter(user -> Location.getDistanceBetweenLocation(parkingLotLocation, user.getUserLocation()) < 1.0)
+                    .map(user -> DeviceToken.builder().deviceToken(user.getDeviceToken()).build())
+                    .map(deviceToken -> PushNotificationRequest.builder().title("New free parking lot")
+                            .message("A new parking lot is available at location" + parkingLotLocation.toString())
+                            .token(deviceToken.getDeviceToken())
+                            .build())
+                    .forEach(Unchecked.consumer(pushNotificationRequest -> fcmService.sendMessageToToken(pushNotificationRequest)));
+        }
+    }
 
     public void sendPushNotification(PushNotificationRequest request) {
         try {

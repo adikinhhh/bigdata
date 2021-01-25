@@ -15,11 +15,29 @@ router.get('/api/parkinglots/', async (req, res) => {
     })
 })
 
+/* Post parkingLot */
+router.post('/api/parkinglots/', async(req, res) => {
+    var lot = new ParkingLot({
+        timestamp: req.body.timestamp,
+        location: req.body.location,
+        isFree: req.body.isFree
+    })
+    lot
+    .save()
+    .then(parkingLots => {
+        res.json(parkingLots);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500);
+    })
+})
+
 /* FindByDistance */
 router.get('/api/parkinglots/distance', async (req, res) => {
-    lat = req.query.latitude;
-    long = req.query.longitude;
-    radius = req.query.radius;
+    lat = parseFloat(req.query.latitude);
+    long = parseFloat(req.query.longitude);
+    radius = parseFloat(req.query.radius).toPrecision(10) / (1.6 * 3963.2);
 
     parkingLot.find({
         location: {
@@ -53,22 +71,5 @@ router.patch('/api/parkinglots/:parkingLotID', async(req, res) => {
     })
 })
 
-/* Post parkingLot */
-router.post('/api/parkinglots/', async(req, res) => {
-    var lot = new ParkingLot({
-        timestamp: req.body.timestamp,
-        location: req.body.location,
-        isFree: req.body.isFree
-    })
-    lot
-    .save()
-    .then(() => {
-        lot.id;
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500);
-    })
-})
 
 module.exports = router;

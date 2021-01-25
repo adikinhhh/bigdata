@@ -37,8 +37,8 @@ public class IllegalParkingEventService {
         return ResponseEntity.ok(illegalParkingEvent);
     }
 
-    public ResponseEntity<List<IllegalParkingEvent>> getAllIllegalParkingEventsByLocation(Double latitude, Double longitude, Double radius) {
-        return ResponseEntity.ok(illegalParkingEventRepository.findAllByLocation(latitude, longitude, radius / (MILE_KM_RATIO * EARTH_RADIUS_MILES)));
+    public ResponseEntity<List<IllegalParkingEvent>> getAllIllegalParkingEventsByLocation(Double longitude, Double latitude, Double radius) {
+        return ResponseEntity.ok(illegalParkingEventRepository.findAllByLocation(longitude, latitude, radius / (MILE_KM_RATIO * EARTH_RADIUS_MILES)));
     }
 
     public ResponseEntity<?> getIllegalParkingEventById(String id) throws EntityNotFoundException {

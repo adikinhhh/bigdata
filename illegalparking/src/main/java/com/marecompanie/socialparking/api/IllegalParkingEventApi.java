@@ -12,8 +12,8 @@ public interface IllegalParkingEventApi {
     ResponseEntity<?> postIllegalParkingEvent(@RequestBody IllegalParkingEvent illegalParkingEvent);
 
     @GetMapping(path = "/api/illegalparkingevent")
-    ResponseEntity<List<IllegalParkingEvent>> getAllIllegalParkingEvents(@RequestParam(required = false) Double latitude,
-                                                                         @RequestParam(required = false) Double longitude,
+    ResponseEntity<List<IllegalParkingEvent>> getAllIllegalParkingEvents(@RequestParam(required = false) Double longitude,
+                                                                         @RequestParam(required = false) Double latitude,
                                                                          @RequestParam(required = false) Double radius);
 
     @GetMapping(path = "/api/illegalparkingevent/{id}")

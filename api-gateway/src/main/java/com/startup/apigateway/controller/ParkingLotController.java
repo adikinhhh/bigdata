@@ -1,5 +1,6 @@
 package com.startup.apigateway.controller;
 
+import com.startup.apigateway.fcm.service.PushNotificationService;
 import com.startup.apigateway.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -9,6 +10,7 @@ import org.springframework.cloud.gateway.mvc.ProxyExchange;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,9 +29,12 @@ public class ParkingLotController {
 
     private final UserService userService;
 
+    private final PushNotificationService pushNotificationService;
+
     @Autowired
-    public ParkingLotController(UserService userService) {
+    public ParkingLotController(UserService userService, PushNotificationService pushNotificationService) {
         this.userService = userService;
+        this.pushNotificationService = pushNotificationService;
     }
 
     @GetMapping(value = "/api/parkinglots/")
@@ -55,6 +60,7 @@ public class ParkingLotController {
     @PatchMapping(path = "/api/parkinglots/{id}")
     public ResponseEntity<?> updateParkingLots(@PathVariable String id, @RequestBody String body, ProxyExchange<byte[]> proxyExchange) {
         // get all users which are 1km from that location, send a notification to them
+        pushNotificationService.sendPushNotificationForFreeParkingLot(id, body);
         return proxyExchange.uri(parkinglotserverhost + "/api/parkinglots/" + id).body(body).patch();
     }
 

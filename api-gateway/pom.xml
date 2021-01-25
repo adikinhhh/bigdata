@@ -72,7 +72,14 @@
 			<artifactId>firebase-admin</artifactId>
 			<version>6.8.1</version>
 		</dependency>
-    </dependencies>
+		<!-- https://mvnrepository.com/artifact/org.jooq/jool -->
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jool</artifactId>
+			<version>0.9.14</version>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<plugins>

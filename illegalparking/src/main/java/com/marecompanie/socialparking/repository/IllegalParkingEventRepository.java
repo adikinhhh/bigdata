@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface IllegalParkingEventRepository extends MongoRepository<IllegalParkingEvent, String> {
     @Query("{ location: { $geoWithin: { $centerSphere: [[?0, ?1], ?2]}}}")
-    List<IllegalParkingEvent> findAllByLocation(Double latitude, Double longitude, Double radius);
+    List<IllegalParkingEvent> findAllByLocation(Double longitude, Double latitude, Double radius);
 }

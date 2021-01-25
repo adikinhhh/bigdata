@@ -23,13 +23,13 @@ public class IllegalParkingEventController implements IllegalParkingEventApi {
         return illegalParkingEventService.postIllegalParkingEvent(illegalParkingEvent);
     }
 
-    public ResponseEntity<List<IllegalParkingEvent>> getAllIllegalParkingEvents(Double latitude,
-                                                                                Double longitude,
+    public ResponseEntity<List<IllegalParkingEvent>> getAllIllegalParkingEvents(Double longitude,
+                                                                                Double latitude,
                                                                                 Double radius) {
         if (Objects.isNull(latitude) || Objects.isNull(longitude) || Objects.isNull(radius)) {
             return illegalParkingEventService.getAllIllegalParkingEvents();
         }
-        return illegalParkingEventService.getAllIllegalParkingEventsByLocation(latitude, longitude, radius);
+        return illegalParkingEventService.getAllIllegalParkingEventsByLocation(longitude, latitude, radius);
     }
 
     public ResponseEntity<?> getIllegalParkingEventById(String id) throws EntityNotFoundException {

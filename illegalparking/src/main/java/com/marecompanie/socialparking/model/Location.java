@@ -8,6 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class Location {
-    private double latitude;
     private double longitude;
+    private double latitude;
 }

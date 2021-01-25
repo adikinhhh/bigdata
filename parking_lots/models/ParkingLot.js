@@ -4,7 +4,7 @@ const ParkingLotSchema = mongoose.Schema({
     id: String,
     timestamp: Date,
     location: Object,
-    isFree: Boolean,
+    isFree: String,
 });
 
 module.exports = mongoose.model('ParkingLots', ParkingLotSchema);
