@@ -36,8 +36,13 @@ public class PushNotificationService {
         Optional<ParkingLot> crtParkingLot = parkingLotRepository.findById(id);
         if (crtParkingLot.isPresent() && body.contains("Yes")) {
             Location parkingLotLocation = crtParkingLot.get().getLocation();
+            log.debug(parkingLotLocation.toString());
             //aici trebuia query cu distanta in mongo
             List<User> allUsers = userRepository.findAll();
+            log.debug(allUsers.toString());
+            log.debug("FCM SERVICE IS " + fcmService.toString());
+            log.debug("Parking REPO IS " + parkingLotLocation.toString());
+            log.debug("User repo is " + userRepository.toString());
             allUsers.stream()
                     .filter(user -> Location.getDistanceBetweenLocation(parkingLotLocation, user.getUserLocation()) < 1.0)
                     .map(user -> DeviceToken.builder().deviceToken(user.getDeviceToken()).build())
@@ -47,6 +52,7 @@ public class PushNotificationService {
                             .build())
                     .forEach(pushNotificationRequest -> {
                         try {
+                            log.debug("PUSH NOTIFICATION REQUEST "+ pushNotificationRequest.toString());
                             fcmService.sendMessageToToken(pushNotificationRequest);
                         } catch (InterruptedException | ExecutionException e) {
                             e.printStackTrace();

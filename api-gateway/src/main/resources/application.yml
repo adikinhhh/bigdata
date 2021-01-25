@@ -7,4 +7,4 @@ signature.secret: "Celmaimaresecret"
 illegalparkingserver.host: "http://illegalparking:8080"
 parkinglotserver.host: "http://parking_lots:5000"
 app.firebase-configuration-file: "firebase/big-data-2c769-firebase-adminsdk-85d26-2a0274f347.json"
-#logging.level.root: DEBUG
+logging.level.root: DEBUG
