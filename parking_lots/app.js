@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const createError = require('http-errors');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 const parkingLotsRouter = require('./controllers/parkingLots.js');
 
