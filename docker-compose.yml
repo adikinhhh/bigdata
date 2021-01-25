@@ -38,7 +38,7 @@ services:
       - mongo
 
   parking_lots:
-    build: ./parking_lots
+    build: adikinzor/socialparkinglots
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
