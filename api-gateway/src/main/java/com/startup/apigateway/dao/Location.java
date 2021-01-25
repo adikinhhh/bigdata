@@ -3,12 +3,15 @@ package com.startup.apigateway.dao;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @Data
 @AllArgsConstructor
 @Builder
 public class Location {
+    @JsonProperty("longitude")
     private double longitude;
+    @JsonProperty("latitude")
     private double latitude;
 
     @Override
