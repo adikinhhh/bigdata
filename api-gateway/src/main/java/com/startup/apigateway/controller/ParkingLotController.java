@@ -1,5 +1,6 @@
 package com.startup.apigateway.controller;
 
+import com.startup.apigateway.dto.FreeRequest;
 import com.startup.apigateway.fcm.service.PushNotificationService;
 import com.startup.apigateway.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -57,11 +58,11 @@ public class ParkingLotController {
         return proxyExchange.uri(parkinglotserverhost + "/api/parkinglots/" + id).delete();
     }
 
-    @PatchMapping(path = "/api/parkinglots/{id}")
-    public ResponseEntity<?> updateParkingLots(@PathVariable String id, @RequestBody String body, ProxyExchange<byte[]> proxyExchange) {
+    @PutMapping(path = "/api/parkinglots/{id}")
+    public ResponseEntity<?> updateParkingLots(@PathVariable String id, @RequestBody FreeRequest body, ProxyExchange<byte[]> proxyExchange) {
         // get all users which are 1km from that location, send a notification to them
-        pushNotificationService.sendPushNotificationForFreeParkingLot(id, body);
-        return proxyExchange.uri(parkinglotserverhost + "/api/parkinglots/" + id).body(body).patch();
+        pushNotificationService.sendPushNotificationForFreeParkingLot(id, body.getIsFree());
+        return proxyExchange.uri(parkinglotserverhost + "/api/parkinglots/" + id).body(body).put();
     }
 
     private String getCurrentUserId(String jwt) {

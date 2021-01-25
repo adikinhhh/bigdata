@@ -56,7 +56,9 @@ router.get('/api/parkinglots/distance', async (req, res) => {
 })
 
 /* Update isFree */
-router.patch('/api/parkinglots/:parkingLotID', async(req, res) => {
+router.put('/api/parkinglots/:parkingLotID', async(req, res) => {
+    console.log(req.body)
+    console.log(req.body.isFree)
     parkingLot.findByIdAndUpdate(
         req.params.parkingLotID,
         {isFree: req.body.isFree},

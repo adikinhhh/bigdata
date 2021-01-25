@@ -16,10 +16,10 @@ public class Location {
 
     @Override
     public String toString() {
-        return "[" +
-                "longitude=" + longitude +
-                ", latitude=" + latitude +
-                ']';
+        return "{" +
+                "\"longitude\":" + longitude +
+                ",\"latitude\":" + latitude +
+                '}';
     }
 
     public static double getDistanceBetweenLocation(Location loc1, UserLocation loc2) {

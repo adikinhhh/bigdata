@@ -42,7 +42,7 @@ public class PushNotificationService {
                     .filter(user -> Location.getDistanceBetweenLocation(parkingLotLocation, user.getUserLocation()) < 1.0)
                     .map(user -> DeviceToken.builder().deviceToken(user.getDeviceToken()).build())
                     .map(deviceToken -> PushNotificationRequest.builder().title("New free parking lot")
-                            .message("A new parking lot is available at location" + parkingLotLocation.toString())
+                            .message("{\"description\": \"A new parking lot is available at location\"," + "\"location\":" + parkingLotLocation.toString() + "}")
                             .token(deviceToken.getDeviceToken())
                             .build())
                     .forEach(pushNotificationRequest -> {
