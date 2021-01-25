@@ -8,12 +8,11 @@ import com.startup.apigateway.fcm.model.PushNotificationRequest;
 import com.startup.apigateway.repository.ParkingLotRepository;
 import com.startup.apigateway.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.jooq.lambda.Unchecked;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.ExecutionException;
 
 
 @Service
@@ -46,7 +45,13 @@ public class PushNotificationService {
                             .message("A new parking lot is available at location" + parkingLotLocation.toString())
                             .token(deviceToken.getDeviceToken())
                             .build())
-                    .forEach(Unchecked.consumer(pushNotificationRequest -> fcmService.sendMessageToToken(pushNotificationRequest)));
+                    .forEach(pushNotificationRequest -> {
+                        try {
+                            fcmService.sendMessageToToken(pushNotificationRequest);
+                        } catch (InterruptedException | ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                    });
         }
     }
 
