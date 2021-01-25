@@ -44,6 +44,8 @@ public class PushNotificationService {
             log.debug("Parking REPO IS " + parkingLotLocation.toString());
             log.debug("User repo is " + userRepository.toString());
             allUsers.stream()
+                    .filter(user -> !Objects.isNull(user.getUserLocation()))
+                    .filter(user -> !Objects.isNull(user.getDeviceToken()))
                     .filter(user -> Location.getDistanceBetweenLocation(parkingLotLocation, user.getUserLocation()) < 1.0)
                     .map(user -> DeviceToken.builder().deviceToken(user.getDeviceToken()).build())
                     .map(deviceToken -> PushNotificationRequest.builder().title("New free parking lot")
