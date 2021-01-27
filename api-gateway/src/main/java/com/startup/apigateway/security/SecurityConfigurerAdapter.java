@@ -28,7 +28,7 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/login", "/register").permitAll()
             .and()
-            .headers().frameOptions().sameOrigin().and()
+//            .headers().frameOptions().sameOrigin().and()
             .httpBasic();
     }
 
